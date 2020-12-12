@@ -79,7 +79,7 @@ namespace webapi
                     IsEraseDisabled = true
                 };
                 evolve.Migrate();
-                Log.Information("Execução de migrations finalizada");
+                Log.Information("Execução de migrations finalizada com sucesso");
             }
             catch (Exception ex)
             {
