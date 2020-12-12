@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using webapi.Models;
 
 namespace webapi.Data
 {
@@ -6,5 +7,8 @@ namespace webapi.Data
     {
         public PostgreSQLContext(DbContextOptions<PostgreSQLContext> options) : base(options)
         { }
+
+        public DbSet<Usuario> Usuarios { get; set; }
+
     }
 }
