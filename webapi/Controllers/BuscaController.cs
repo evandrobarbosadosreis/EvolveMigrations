@@ -27,6 +27,10 @@ namespace webapi.Controllers
         [Route("usuarios")]
         [HttpGet]
         public async Task<IActionResult> GetUsuarios() => Ok(await _context.Usuarios.ToListAsync());
+
+        [Route("produtos")]
+        [HttpGet]
+        public async Task<IActionResult> GetProdutos() => Ok(await _context.Produtos.ToListAsync());
  
     }
 }
