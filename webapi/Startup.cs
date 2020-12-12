@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Npgsql;
+using Serilog;
 using webapi.Data;
 
 namespace webapi
@@ -17,6 +19,7 @@ namespace webapi
         {
             Configuration = configuration;
             Environment   = environment;
+            Log.Logger    = new LoggerConfiguration().WriteTo.Console().CreateLogger();
         }
 
         public IConfiguration Configuration { get; }
@@ -64,7 +67,7 @@ namespace webapi
         {
             try
             {
-                // TODO: LOG
+                Log.Information("Iniciando aplicação de migrations");
                 var connection = new NpgsqlConnection(connectionString);
                 var evolve = new Evolve.Evolve(connection)
                 {
@@ -76,9 +79,11 @@ namespace webapi
                     IsEraseDisabled = true
                 };
                 evolve.Migrate();
+                Log.Information("Execução de migrations finalizada");
             }
-            catch
+            catch (Exception ex)
             {
+                Log.Error("Não foi possível atualizar o banco de dados", ex);
                 throw;
             }
         }
